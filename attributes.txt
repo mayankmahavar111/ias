@@ -5,7 +5,7 @@
 @attribute double_slash_redirecting { -1,1 }
 @attribute Prefix_Suffix  { -1,1 }
 @attribute having_Sub_Domain  { -1,0,1 }
-@attribute SSLfinal_State  { -1,1,0 }
+#@attribute SSLfinal_State  { -1,1,0 }
 # @attribute Domain_registeration_length { -1,1 }
 #@attribute Favicon { 1,-1 }
 @attribute port { 1,-1 }
