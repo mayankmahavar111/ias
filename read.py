@@ -1,11 +1,17 @@
 import socket
 from urlunshort import is_shortened
 from urllib2 import urlopen
+import whois
+import datetime
+
 
 
 positive='1'
 negative='-1'
 neutral='0'
+currMonth=datetime.datetime.month
+currYear=datetime.datetime.year
+
 
 
 def getIpaddress(name):
@@ -94,7 +100,57 @@ def datasetGenerator(line):
     temp.append(port(line))
     temp.append(https(line))
     temp.append(CodeLength(line))
+    whoisTemp=whoisSection(line)
+    temp.append(Domainregisterationlength(whoisTemp))
+    temp.append(ageOfDomain(whoisTemp))
+    temp.append(dnsRecord(whoisTemp))
     return ','.join(temp)
+
+
+def Domainregisterationlength(name):
+    try:
+        if name.updated_date == None:
+            return negative
+        else:
+            return positive
+    except:
+        return negative
+
+def ageOfDomain(name):
+    try:
+
+        date=name.expiration_date
+        if type(date) is list:
+
+            date=date[0]
+
+        year=date.year
+        month=date.month
+        if year==currYear and month-currMonth >6 :
+            return neutral
+        elif year!=currYear :
+            return positive
+        elif year == currYear and month - currMonth<6:
+            return negative
+        else:
+            return negative
+    except:
+        return negative
+
+def dnsRecord(name):
+    try:
+        if name.dnssec == None :
+            return negative
+        else:
+            return positive
+    except:
+        return negative
+
+
+def whoisSection(name):
+    return whois.whois(name)
+
+
 
 if __name__ == '__main__':
     with open('top-1m.csv','r') as f:

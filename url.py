@@ -5,7 +5,7 @@ from urllib2 import urlopen
 import whois
 
 
-url_aadress='google.com.hk'
+url_aadress='oxilockindia.com/wp-admin/gtex/'
 """
 code = urlopen("http://{}".format(url_aadress)).code
 print socket.gethostbyname(url_aadress)
@@ -25,4 +25,5 @@ else:
 """
 
 x=whois.whois(url_aadress)
-print x.updated_date
+print x
+#print len(x.expiration_date)
