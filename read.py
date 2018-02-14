@@ -3,7 +3,7 @@ from urlunshort import is_shortened
 from urllib2 import urlopen
 import whois
 import datetime
-
+import urllib,re
 
 
 positive='1'
@@ -88,23 +88,7 @@ def CodeLength(name):
         return positive
 
 
-def datasetGenerator(line):
-    temp=[]
-    temp.append(getIpaddress(line))
-    temp.append(urlLenght(line))
-    temp.append(shortenUrl(line))
-    temp.append(atTherate(line))
-    temp.append(doubleSlash(line))
-    temp.append(dash(line))
-    temp.append(subDomain(line))
-    temp.append(port(line))
-    temp.append(https(line))
-    temp.append(CodeLength(line))
-    whoisTemp=whoisSection(line)
-    temp.append(Domainregisterationlength(whoisTemp))
-    temp.append(ageOfDomain(whoisTemp))
-    temp.append(dnsRecord(whoisTemp))
-    return ','.join(temp)
+
 
 
 def Domainregisterationlength(name):
@@ -151,6 +135,35 @@ def whoisSection(name):
     return whois.whois(name)
 
 
+
+def pageRank(name):
+
+    xml = urllib.urlopen('http://data.alexa.com/data?cli=10&dat=s&url=%s' % name).read()
+
+    try:
+        rank = int(re.search(r'<POPULARITY[^>]*TEXT="(\d+)"', xml).groups()[0])
+        return positive
+    except Exception as e:
+        return negative
+
+def datasetGenerator(line):
+    temp=[]
+    temp.append(getIpaddress(line))
+    temp.append(urlLenght(line))
+    temp.append(shortenUrl(line))
+    temp.append(atTherate(line))
+    temp.append(doubleSlash(line))
+    temp.append(dash(line))
+    temp.append(subDomain(line))
+    temp.append(port(line))
+    temp.append(https(line))
+    temp.append(CodeLength(line))
+    whoisTemp=whoisSection(line)
+    temp.append(Domainregisterationlength(whoisTemp))
+    temp.append(ageOfDomain(whoisTemp))
+    temp.append(dnsRecord(whoisTemp))
+    temp.append(pageRank(line))
+    return ','.join(temp)
 
 if __name__ == '__main__':
     with open('top-1m.csv','r') as f:
