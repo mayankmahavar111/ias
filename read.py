@@ -4,6 +4,7 @@ from urllib2 import urlopen
 import whois
 import datetime
 import urllib,re
+import urllib2
 
 
 positive='1'
@@ -146,6 +147,37 @@ def pageRank(name):
     except Exception as e:
         return negative
 
+
+def scrapping(data,url):
+    dataset=[]
+    for line in data:
+        if '://' in line:
+            line = line.split('://')
+            line = line[1:]
+            temp = []
+            for x in line:
+                dataset.append(x.split('"')[0])
+    #print len(dataset)
+    count = 0
+    for x in dataset:
+        if url in x:
+            count += 1
+    if count == 0 :
+         return negative
+    elif len(dataset)/count > 0.5 :
+        return positive
+    else:
+        return negative
+
+
+def readhtml(name):
+    url='http://'+name
+    usock = urllib2.urlopen(url)
+    data = usock.read()
+    dataset=data.split('\n')
+
+    return dataset
+
 def datasetGenerator(line):
     temp=[]
     temp.append(getIpaddress(line))
@@ -163,6 +195,8 @@ def datasetGenerator(line):
     temp.append(ageOfDomain(whoisTemp))
     temp.append(dnsRecord(whoisTemp))
     temp.append(pageRank(line))
+    htmlData=readhtml(line)
+    temp.append(scrapping(htmlData,line.split('.')[0]))
     return ','.join(temp)
 
 if __name__ == '__main__':

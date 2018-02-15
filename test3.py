@@ -1,6 +1,6 @@
 import urllib2
 
-url = 'http://google.com' # write the url here
+url = 'http://emiratesnbd.deralreserve.com' # write the url here
 
 usock = urllib2.urlopen(url)
 data = usock.read()
