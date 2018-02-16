@@ -270,7 +270,7 @@ def datasetGenerator(line):
     return ','.join(temp)
 
 if __name__ == '__main__':
-    with open('verified_online.csv','r') as f:
+    with open('top-1m.csv','r') as f:
         i=0
         for line in f.readlines()[1:]:
             if i>10:
@@ -279,16 +279,19 @@ if __name__ == '__main__':
             line=line.split(',')[1]
             line=line.split('\n')[0]
             #print line
+            """
             line=line.split('://')[1]
             line=line.split('/')[0]
+            """
             print line,':',
+
             try:
                 temp=datasetGenerator(line)
             except Exception as e:
                 print e
                 continue
-            print temp,' lenght is : ',
-            print (len(temp.split(',')))
+            #print temp,' lenght is : ',
+            #print (len(temp.split(',')))
 
 
 

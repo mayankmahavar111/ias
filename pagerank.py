@@ -1,44 +1,15 @@
-"""from google_pagerank.page_rank import get_page_rank
+import urllib,re
 
-URL = "http://google.com"
 
-pr = get_page_rank(URL)
-print(str(pr)"""
+def GetPageRank (name):
+    xml = urllib.urlopen('http://data.alexa.com/data?cli=10&dat=s&url=%s' % name).read()
 
-#!/usr/bin/env python
-
-# Google Pagerank Checksum Algorithm (Firefox Toolbar)
-# Downloaded from http://pagerank.phurix.net/
-# Requires: Python >= 2.4
-
-# Versions:
-# pagerank2.py 0.2 - Fixed a minor formatting bug
-# pagerank2.py 0.1 - Public release
-
-# Settings
-prhost='toolbarqueries.google.com'
-prpath='/tbr?client=navclient-auto&ch=%s&features=Rank&q=info:%s'
-
-# Function definitions
-def GetHash (query):
-    SEED = "Mining PageRank is AGAINST GOOGLE'S TERMS OF SERVICE. Yes, I'm talking to you, scammer."
-    Result = 0x01020345
-    for i in range(len(query)) :
-        Result ^= ord(SEED[i%len(SEED)]) ^ ord(query[i])
-        Result = Result >> 23 | Result << 9
-        Result &= 0xffffffff
-    return '8%x' % Result
-
-def GetPageRank (query):
-    import httplib
-    conn = httplib.HTTPConnection(prhost)
-    hash = GetHash(query)
-    path = prpath % (hash,query)
-    conn.request("GET", path)
-    response = conn.getresponse()
-    data = response.read()
-    conn.close()
-    return data.split(":")[-1]
+    try:
+        rank = int(re.search(r'<POPULARITY[^>]*TEXT="(\d+)"', xml).groups()[0])
+        print rank
+    except Exception as e:
+        print e
 
 if __name__ == "__main__" :
-    print GetPageRank("http://www.google.com/")
+    url_name=raw_input("Enter url :")
+    print GetPageRank(url_name)
