@@ -170,6 +170,29 @@ def scrapping(data,url):
         return negative
 
 
+def linkInTags(data,url):
+    dataset = []
+    for line in data:
+        if 'script' in line or 'meta' in line or 'link' in line:
+            line = re.split('<script>|</script> | <meta>|</meta> | <link> | </link>', line)
+            for x in line:
+                if '://' in x:
+                    temp = x.split('://')[1]
+                    dataset.append(temp.split('/')[0])
+                    # dataset.append(line)
+    count = 0
+    for x in dataset:
+        if url in x:
+            count+=1
+    if count == 0 :
+         return negative
+    elif len(dataset)/count > 0.5 :
+        return positive
+    else:
+        return negative
+
+
+
 def readhtml(name):
     url='http://'+name
     usock = urllib2.urlopen(url)
@@ -177,6 +200,17 @@ def readhtml(name):
     dataset=data.split('\n')
 
     return dataset
+
+def Submit(data):
+    for line in data:
+        if '<form ' in line and 'action' in line:
+            test = line.split('action="')[1]
+            test = test.split('"')[0]
+            if len(test) > 1 :
+                return positive
+            else:
+                return negative
+    return positive
 
 def datasetGenerator(line):
     temp=[]
@@ -197,6 +231,8 @@ def datasetGenerator(line):
     temp.append(pageRank(line))
     htmlData=readhtml(line)
     temp.append(scrapping(htmlData,line.split('.')[0]))
+    temp.append(linkInTags(htmlData,line.split('.')[0]))
+    temp.append(Submit(htmlData))
     return ','.join(temp)
 
 if __name__ == '__main__':
