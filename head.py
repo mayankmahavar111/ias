@@ -1,6 +1,6 @@
-f=open('data.html','r')
-data=f.read()
-f.close()
+import requests as req
 
-data=data.split('head')[1]
-print data
+resp = req.get("http://google.com", allow_redirects=False)
+
+print(resp.status_code)
+print(resp.url)
