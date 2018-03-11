@@ -6,6 +6,7 @@ import datetime
 import urllib,re
 import urllib2
 import requests as req
+import progressbar
 
 
 positive='1'
@@ -93,9 +94,6 @@ def CodeLength(name):
         return negative
 
 
-
-
-
 def Domainregisterationlength(name):
     try:
         if name.updated_date == None:
@@ -147,7 +145,10 @@ def pageRank(name):
 
     try:
         rank = int(re.search(r'<POPULARITY[^>]*TEXT="(\d+)"', xml).groups()[0])
-        return positive
+        if rank !=-1:
+            return positive
+        else:
+            return negative
     except Exception as e:
         return negative
 
@@ -266,32 +267,28 @@ def datasetGenerator(line):
     temp.append(linktoPage())
     temp.append(googleIndex())
     temp.append(statisticalReport())
-
     return ','.join(temp)
 
 if __name__ == '__main__':
-    with open('top-1m.csv','r') as f:
-        i=0
-        for line in f.readlines()[1:]:
-            if i>10:
-                break
-            i+=1
-            line=line.split(',')[1]
-            line=line.split('\n')[0]
-            #print line
-            """
-            line=line.split('://')[1]
-            line=line.split('/')[0]
-            """
-            print line,':',
+    dataset=[]
+    f=open('data.txt','r')
+    test=f.readlines()
+    limit=len(test)
+    bar=progressbar.ProgressBar()
+    for i in bar(range(len(test))):
+        try:
+            feature=datasetGenerator(test[i].split('\n')[0])
+        except:
+            continue
+        if i <= limit/2 :
+            feature= feature+',-1\n'
+        else:
+            feature = feature +',1\n'
+        dataset.append(feature)
 
-            try:
-                temp=datasetGenerator(line)
-            except Exception as e:
-                print e
-                continue
-            #print temp,' lenght is : ',
-            #print (len(temp.split(',')))
+    f=open('feature2.txt','w')
+    for x in dataset:
+        f.write(x)
 
 
 
