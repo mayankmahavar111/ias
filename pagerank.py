@@ -6,10 +6,10 @@ def GetPageRank (name):
 
     try:
         rank = int(re.search(r'<POPULARITY[^>]*TEXT="(\d+)"', xml).groups()[0])
-        print rank
+        #print rank
     except Exception as e:
-        print e
+        print (e)
 
 if __name__ == "__main__" :
     url_name=raw_input("Enter url :")
-    print GetPageRank(url_name)
+    #print GetPageRank(url_name)
