@@ -12,6 +12,6 @@ usock.close()
 
 f=open('data.html','w')
 f.write(data)
-print len(data)
+#print len(data)
 f.close()
 

@@ -138,7 +138,6 @@ def whoisSection(name):
     return whois.whois(name)
 
 
-
 def pageRank(name):
 
     xml = urllib.urlopen('http://data.alexa.com/data?cli=10&dat=s&url=%s' % name).read()

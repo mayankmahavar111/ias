@@ -16,5 +16,5 @@ for line in data:
         #dataset.append(line)
 
 for x in dataset:
-    print x
+    print (x)
 

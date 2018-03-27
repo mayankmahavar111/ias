@@ -9,7 +9,7 @@ for x in temp:
     t=x.split(',')[1]
     dataset.append( str(t.split("://")[1] + '\n'))
 limit=len(dataset)
-print limit
+print (limit)
 
 f=open('top-1m.csv','r')
 temp=f.readlines()[1002:]

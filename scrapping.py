@@ -14,10 +14,10 @@ for line in data:
         line=temp
         for x in line:
             dataset.append(x)
-print len(dataset)
+#print len(dataset)
 count=0
 for x in dataset:
     if 'google' in x:
         count+=1
-print count
+#print count
 
