@@ -135,6 +135,10 @@ if __name__ == '__main__':
 
 
     correct=0
+    tp=0
+    fp=0
+    tn=0
+    fn=0
 
     for x in test:
         phishprob=calculateProbabilty(x,phishmean,phishstd)
@@ -144,15 +148,27 @@ if __name__ == '__main__':
         if phishprob<goodprob:
             if x.split(',')[-1].split('\n')[0]  == '-1':
                 correct+=1
+                tp+=1
+            else:
+                fp+=1
             #print "phishing"
         else:
             if x.split(',')[-1].split('\n')[0]  == '1':
                 correct+=1
+                tn+=1
+            else:
+                fn+=1
             #print "not phishing"
 
     print correct
     print len(test)
     accuracy =  float(correct)/float(len(test))
 
-    print accuracy
+    print "accuracy is :" ,accuracy
 
+    precision=float(tp)/float(tp+fn)
+    recall=float(tp)/float(tp+fp)
+    f_measure= 2*precision*recall/(precision+recall)
+    print "precision : {}".format(precision)
+    print "recall : {}".format(recall)
+    print "f_measure is : {}".format(f_measure)
