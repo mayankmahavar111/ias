@@ -121,13 +121,13 @@ if __name__ == '__main__':
     phis,good = phish(dataset)
     phishmean =findmean(phis)
     goodmean=findmean(good)
-    #print phishmean
-    #print goodmean
+    print phishmean
+    print goodmean
 
     phishstd=stdev(phis,phishmean)
     goodstd=stdev(good,goodmean)
-    #print phishstd
-    #print goodstd
+    print phishstd
+    print goodstd
 
 
 
@@ -150,8 +150,8 @@ if __name__ == '__main__':
                 correct+=1
             #print "not phishing"
 
-    #print correct
-    #print len(test)
+    print correct
+    print len(test)
     accuracy =  float(correct)/float(len(test))
 
     print accuracy
