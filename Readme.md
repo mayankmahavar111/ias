@@ -1,23 +1,23 @@
-#IAS Project
+# IAS Project
 
-###Module 1
+### Module 1
 
-###Pre Requisities
+### Pre Requisities
 
-#####1.pip install -r shortrequirement.txt
-#####2.Python  2.7.x
+##### 1.pip install -r shortrequirement.txt
+##### 2.Python  2.7.x
 
-###How to Run the program
+### How to Run the program
 python read.py
-###Output of program
+### Output of program
 domain name : Features (In form of 1 , 0 -,1)
 
-####Referrence
+#### Referrence
 1  : Positive (Not Phishy)
 0  : Negative (Phishy )
 -1 : Neutral (Sucpicious) 
 
-####Attributes of the Features
+#### Attributes of the Features
 Having IP Address
 
 URL Length
